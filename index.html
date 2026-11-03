@@ -3,53 +3,42 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030704">
   <title>Vérification de l'âge</title>
   <link rel="icon" href="/freecash-logo.webp" type="image/webp">
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100%;
-      min-height: 100%;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont,
-        "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(
+        circle at 50% 20%,
+        #143322,
+        #07150c 45%,
+        #030704
+      );
       color: #f5fff7;
-      background: #030704;
     }
 
     .age-gate {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      z-index: 9999;
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      overflow-y: auto;
-      background: radial-gradient(
-        circle at 50% 20%,
-        #143322 0%,
-        #07150c 45%,
-        #030704 100%
-      );
+      align-items: center;
+      padding: 22px;
     }
 
     .age-box {
       width: 100%;
-      max-width: 560px;
-      padding: 30px 22px;
+      max-width: 520px;
       text-align: center;
     }
 
@@ -57,25 +46,23 @@
       width: 94px;
       height: 94px;
       margin: 0 auto 22px;
-      border-radius: 24px;
       display: grid;
       place-items: center;
+      border-radius: 24px;
+      background: linear-gradient(#67ffa3, #20d66b);
       color: #031108;
       font-size: 28px;
-      font-weight: 1000;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
+      font-weight: 900;
       box-shadow: 0 16px 36px rgba(57,255,136,.28);
     }
 
     h1 {
       font-size: clamp(32px, 9vw, 46px);
-      line-height: 1.05;
-      letter-spacing: -.06em;
+      line-height: 1.08;
       margin-bottom: 14px;
-      font-weight: 1000;
     }
 
-    .description {
+    p {
       color: #a7b8ab;
       font-size: 16px;
       line-height: 1.5;
@@ -87,27 +74,20 @@
       gap: 12px;
     }
 
-    .age-actions button {
+    button {
       width: 100%;
       min-height: 66px;
-      padding: 12px;
+      padding: 14px;
       border-radius: 18px;
-      font-family: inherit;
       font-size: 15px;
       font-weight: 900;
       cursor: pointer;
-      transition: transform .2s;
-    }
-
-    .age-actions button:active {
-      transform: scale(.97);
     }
 
     .yes {
       border: none;
       color: #031108;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 30px rgba(32,214,107,.24);
+      background: linear-gradient(#67ffa3, #20d66b);
     }
 
     .no {
@@ -126,7 +106,6 @@
       border: 1px solid rgba(255,92,108,.20);
       font-size: 13px;
       font-weight: 800;
-      line-height: 1.5;
     }
   </style>
 </head>
@@ -134,12 +113,11 @@
 <body>
   <main class="age-gate">
     <section class="age-box">
-
       <div class="age-icon">21+</div>
 
       <h1>Vous avez 21 ans ou plus ?</h1>
 
-      <p class="description">
+      <p>
         Cette page est réservée aux personnes
         âgées de 21 ans ou plus.
       </p>
@@ -155,15 +133,13 @@
       </div>
 
       <div class="deny" id="denyMsg" role="alert">
-        Désolé, vous ne pouvez pas accéder à cette page.
+        Désolé, vous ne pouvez pas accéder
+        à cette page.
       </div>
-
     </section>
   </main>
 
   <script>
-    "use strict";
-
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const denyMsg = document.getElementById("denyMsg");
@@ -174,9 +150,7 @@
         window.location.origin
       );
 
-      // Păstrează parametrii de tracking.
       destination.search = window.location.search;
-
       window.location.assign(destination.href);
     });
 
