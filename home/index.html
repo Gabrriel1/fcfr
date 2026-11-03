@@ -1,30 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vérification de l’âge</title>
-  <link rel="icon" href="data:,">
-<style>
+  <meta name="theme-color" content="#030704">
+  <title>Freecash – Gagnez des récompenses</title>
+
+  <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     :root {
-      --bg: #030704;
-      --card: #0b1710;
-      --card2: #101f16;
       --green: #39ff88;
-      --green2: #19c762;
+      --yellow: #ffd56a;
       --text: #f5fff7;
       --muted: #a7b8ab;
-      --yellow: #ffd56a;
-      --red: #ff5c6c;
-      --line: rgba(255,255,255,.10);
-      --shadow: 0 24px 70px rgba(0,0,0,.55);
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     }
 
     html {
@@ -33,16 +27,25 @@
 
     body {
       min-height: 100vh;
-      font-family: var(--font);
+      font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 50% -10%, rgba(57,255,136,.35), transparent 35%),
-        radial-gradient(circle at 100% 25%, rgba(255,213,106,.16), transparent 28%),
-        linear-gradient(180deg, #06140b 0%, #030704 65%, #020302 100%);
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(57,255,136,.35),
+          transparent 35%
+        ),
+        linear-gradient(
+          180deg,
+          #06140b,
+          #030704 65%,
+          #020302
+        );
       overflow-x: hidden;
     }
 
-    body.lock {
+    body.modal-open {
       overflow: hidden;
     }
 
@@ -51,166 +54,41 @@
       text-decoration: none;
     }
 
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .age-gate {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      z-index: 99999;
-      display: block;
-      padding: 0;
-      background: #030704;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      transition: opacity .25s ease, visibility .25s ease;
-    }
-
-    .age-gate.hide {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .age-box {
-      width: 100%;
-      max-width: none;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: max(30px, env(safe-area-inset-top)) 22px max(30px, env(safe-area-inset-bottom));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      border-radius: 0;
-      background: radial-gradient(circle at 50% 20%, #143322 0%, #07150c 45%, #030704 100%);
-      border: 0;
-      box-shadow: none;
-    }
-
-    .age-box h2, .age-box p, .age-actions, .deny {
-      width: 100%;
-      max-width: 520px;
-    }
-    .age-actions { gap: 12px; }
-
-    .age-icon {
-      width: 94px;
-      height: 94px;
-      border-radius: 24px;
-      margin: 0 auto 18px;
-      display: grid;
-      place-items: center;
-      color: #031108;
-      font-size: 28px;
-      font-weight: 1000;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 36px rgba(57,255,136,.28);
-    }
-
-    .age-box h2 {
-      font-size: 46px;
-      line-height: 1.03;
-      letter-spacing: -.06em;
-      margin-bottom: 10px;
-    }
-
-    .age-box p {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
-
-    .age-actions {
-      display: grid;
-      gap: 10px;
-    }
-
-    .age-actions button {
-      border: 0;
-      min-height: 66px;
-      border-radius: 18px;
-      font-size: 15px;
-      font-weight: 900;
+    button {
+      font-family: inherit;
       cursor: pointer;
-    }
-
-    .yes {
-      color: #031108;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 30px rgba(32,214,107,.24);
-    }
-
-    .no {
-      color: #e8f3eb;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.10);
-    }
-
-    .deny {
-      display: none;
-      margin-top: 12px;
-      color: #ffc0c7;
-      font-size: 12px;
-      font-weight: 800;
     }
 
     .page {
       width: 100%;
       max-width: 430px;
-      margin: 0 auto;
       min-height: 100vh;
-      padding: 14px 14px 112px;
+      margin: 0 auto;
+      padding: 18px 14px 120px;
     }
 
     .top {
       display: flex;
       justify-content: center;
-      align-items: center;
-      margin-bottom: 18px;
-      padding-top: 4px;
+      margin-bottom: 20px;
     }
 
-    .brand-combo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 9px 13px;
+    .brand {
+      padding: 12px 20px;
       border-radius: 999px;
+      color: var(--green);
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 34px rgba(0,0,0,.28);
-    }
-
-    .brand-combo img {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      object-fit: cover;
-      background: rgba(255,255,255,.08);
-    }
-
-    .brand-combo span {
-      color: var(--green);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 1000;
-      line-height: 1;
     }
 
     .hero {
-      min-height: 72vh;
+      min-height: 68vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 4px 0 20px;
+      padding-bottom: 25px;
     }
 
     .payout-badge {
@@ -221,28 +99,27 @@
       color: #baffd0;
       background: rgba(57,255,136,.12);
       border: 1px solid rgba(57,255,136,.34);
-      box-shadow: inset 0 0 20px rgba(57,255,136,.05);
       font-size: 14px;
-      font-weight: 1000;
+      font-weight: 900;
+      text-align: center;
     }
 
     h1 {
       text-align: center;
       font-size: clamp(38px, 12vw, 54px);
-      line-height: .98;
+      line-height: .99;
       letter-spacing: -.065em;
       font-weight: 1000;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     h1 span {
       color: var(--green);
-      text-shadow: 0 0 30px rgba(57,255,136,.25);
     }
 
     .mini-text {
       max-width: 335px;
-      margin: 0 auto 22px;
+      margin: 0 auto 24px;
       text-align: center;
       color: #dbe6de;
       font-size: 17px;
@@ -254,8 +131,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin: 0 auto 26px;
-      max-width: 350px;
+      margin-bottom: 26px;
     }
 
     .chip {
@@ -263,10 +139,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
+      padding: 10px;
       border-radius: 999px;
-      color: #f4fff7;
       background: rgba(255,255,255,.055);
       border: 1px solid rgba(255,255,255,.12);
       font-size: 13px;
@@ -274,108 +148,22 @@
       text-align: center;
     }
 
-    .section-title {
-      margin: 22px 0 12px;
-      color: #eee9f6;
-      font-size: 13px;
-      font-weight: 1000;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-    }
-
-    .offer-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 22px 0 12px;
-    }
-
-    .offer-heading .section-title {
-      margin: 0;
-      font-size: 11px;
-      letter-spacing: .16em;
-      white-space: nowrap;
-    }
-
-    .offer-card {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 112px;
-      padding: 16px;
-      border-radius: 28px;
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.11);
-      box-shadow: 0 18px 48px rgba(0,0,0,.32);
-    }
-
-    .play {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      background: rgba(57,255,136,.12);
-      border: 4px solid var(--green);
-      color: #fff;
-      font-size: 20px;
-      box-shadow: 0 0 25px rgba(57,255,136,.26);
-    }
-
-    .offer-card strong {
-      display: block;
-      max-width: 205px;
-      margin-bottom: 4px;
-      font-size: 18px;
-      line-height: 1.12;
-      letter-spacing: -.03em;
-    }
-
-    .offer-card span {
-      color: #dbcfe0;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 760;
-    }
-
-    .hot {
-      flex-shrink: 0;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: var(--yellow);
-      color: #3a2500;
-      font-size: 11px;
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-
-    .rating {
-      position: absolute;
-      right: 20px;
-      bottom: 17px;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 1000;
-    }
-
-    .rating i {
-      color: var(--yellow);
-      font-style: normal;
-    }
-
     .tip-card {
-      margin-top: 18px;
-      padding: 24px 22px 19px;
+      margin-bottom: 22px;
+      padding: 24px 22px;
       border-radius: 28px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)),
-        radial-gradient(circle at top left, rgba(57,255,136,.12), transparent 34%);
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.055),
+          rgba(255,255,255,.025)
+        ),
+        radial-gradient(
+          circle at top left,
+          rgba(57,255,136,.12),
+          transparent 40%
+        );
       border: 1px solid rgba(156,255,188,.22);
-      overflow: hidden;
       box-shadow: 0 18px 48px rgba(0,0,0,.30);
     }
 
@@ -383,9 +171,7 @@
       color: var(--yellow);
       font-size: 14px;
       font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: -.02em;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .tip-card h2 {
@@ -403,15 +189,64 @@
       color: #eadff0;
       font-size: 15px;
       line-height: 1.45;
-      font-weight: 760;
       margin-bottom: 18px;
     }
 
     .rainbow {
       height: 6px;
       border-radius: 999px;
-      background: linear-gradient(90deg, #39ff88, #e8ff3f, #ffbb38, #ff6b4a);
-      box-shadow: 0 0 20px rgba(57,255,136,.22);
+      background: linear-gradient(
+        90deg,
+        #39ff88,
+        #e8ff3f,
+        #ffbb38,
+        #ff6b4a
+      );
+    }
+
+    .section-title {
+      margin: 22px 0 12px;
+      color: #eee9f6;
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .offer-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.11);
+      box-shadow: 0 18px 48px rgba(0,0,0,.32);
+    }
+
+    .play {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(57,255,136,.12);
+      border: 4px solid var(--green);
+      font-size: 20px;
+    }
+
+    .offer-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .offer-card p {
+      color: #dbcfe0;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
     .steps-grid {
@@ -422,44 +257,32 @@
 
     .mini-step {
       min-height: 180px;
-      padding: 18px 10px 12px;
+      padding: 18px 10px;
       border-radius: 18px;
       text-align: center;
       background: rgba(255,255,255,.035);
       border: 1px solid rgba(255,255,255,.10);
     }
 
-    .mini-step .big {
+    .mini-step .number {
       display: block;
       color: var(--green);
       font-size: 34px;
-      line-height: 1;
       font-weight: 1000;
-      margin-bottom: 10px;
-    }
-
-    .mini-step .icon {
-      display: block;
-      color: var(--green);
-      font-size: 32px;
-      line-height: 1;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .mini-step strong {
       display: block;
-      color: #fff;
       font-size: 15px;
-      line-height: 1.12;
-      letter-spacing: -.035em;
+      line-height: 1.2;
       margin-bottom: 10px;
     }
 
     .mini-step p {
       color: #b8c7bd;
       font-size: 12px;
-      line-height: 1.35;
-      font-weight: 700;
+      line-height: 1.4;
     }
 
     .cashout {
@@ -467,7 +290,7 @@
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
     .cashout span {
@@ -481,11 +304,18 @@
     }
 
     .note {
-      margin-top: 12px;
+      margin-top: 16px;
       color: #8fa596;
       text-align: center;
       font-size: 11px;
-      line-height: 1.45;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 30px 0;
+      color: #718477;
+      text-align: center;
+      font-size: 11px;
     }
 
     .sticky {
@@ -497,74 +327,116 @@
       z-index: 20;
       padding: 10px;
       border-radius: 26px;
-      background: rgba(3,7,4,.78);
+      background: rgba(3,7,4,.88);
       border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(14px);
       box-shadow: 0 18px 55px rgba(0,0,0,.55);
     }
 
     .cta {
+      width: 100%;
       min-height: 64px;
+      padding: 12px;
+      border: none;
       border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
       color: #031108;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 34px rgba(32,214,107,.28);
-      font-weight: 1000;
+      background: linear-gradient(
+        180deg,
+        #67ffa3,
+        #20d66b
+      );
       font-size: 18px;
-      letter-spacing: -.035em;
+      font-weight: 1000;
       text-align: center;
     }
 
     .cta small {
       display: block;
       font-size: 11px;
-      font-weight: 850;
-      opacity: .72;
-      margin-top: 2px;
-      letter-spacing: 0;
+      margin-top: 4px;
+      opacity: .75;
     }
 
-    footer {
-      padding: 28px 0 8px;
+    /* Popup */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,.84);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      position: relative;
+      width: 100%;
+      max-width: 390px;
+      padding: 28px 22px;
+      border-radius: 28px;
       text-align: center;
-      color: #718477;
-      font-size: 11px;
-      line-height: 1.6;
+      background: linear-gradient(
+        180deg,
+        #173522,
+        #07120b
+      );
+      border: 1px solid rgba(57,255,136,.3);
+      box-shadow: 0 25px 80px rgba(0,0,0,.6);
     }
 
-    footer a {
-      margin: 0 7px;
-      color: #7f9686;
+    .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      color: white;
+      font-size: 22px;
     }
 
-    @media (max-width: 480px) {
-      .age-box { padding: 30px 22px 26px; }
-      .age-box h2 { font-size: clamp(32px, 9vw, 44px); }
+    .modal-icon {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .modal h2 {
+      font-size: 27px;
+      line-height: 1.15;
+      margin-bottom: 15px;
+    }
+
+    .modal p {
+      color: #d1e2d5;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .modal-cta {
+      display: block;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(
+        180deg,
+        #67ffa3,
+        #20d66b
+      );
+      color: #031108;
+      font-weight: 1000;
+      font-size: 17px;
     }
 
     @media (max-width: 370px) {
-      .offer-heading {
-        gap: 6px;
-      }
-
-      .offer-heading .section-title {
-        font-size: 10px;
-        letter-spacing: .1em;
-      }
-
-      .hot {
-        padding: 6px 8px;
-        font-size: 9px;
-      }
-
-      .chips {
-        grid-template-columns: 1fr;
-      }
-
+      .chips,
       .steps-grid {
         grid-template-columns: 1fr;
       }
@@ -575,37 +447,240 @@
     }
   </style>
 </head>
-<body class="lock">
-  <div class="age-gate" id="ageGate">
-    <div class="age-box">
-      <div class="age-icon">21+</div>
-      <h2>Vous avez 21 ans ou plus ?</h2>
-      <p>Cette page est réservée aux personnes âgées de 21 ans ou plus.</p>
 
-      <div class="age-actions">
-        <button class="yes" id="yesBtn">Oui, j’ai 21 ans ou plus</button>
-        <button class="no" id="noBtn">Non, j’ai moins de 21 ans</button>
+<body>
+
+  <main class="page">
+
+    <header class="top">
+      <div class="brand">Freecash</div>
+    </header>
+
+    <section class="hero">
+
+      <div class="payout-badge">
+        ✓ Plus de 50 millions d'euros versés
       </div>
 
-      <div class="deny" id="denyMsg">
-        Désolé, vous ne pouvez pas accéder à cette page.
+      <h1>
+        Soyez payé pour
+        <span>scroller</span>
+      </h1>
+
+      <p class="mini-text">
+        Transformez votre temps d'écran en
+        récompenses avec Freecash.
+      </p>
+
+      <div class="chips">
+        <div class="chip">⚡ Paiements rapides</div>
+        <div class="chip">🔒 Compte sécurisé</div>
+        <div class="chip">🎁 Bonus quotidiens</div>
+        <div class="chip">📱 Offres mobiles</div>
       </div>
+
+      <div class="tip-card">
+
+        <div class="tip-label">⚡ Conseil</div>
+
+        <h2>
+          Débloquez des
+          <span>récompenses supplémentaires</span>
+        </h2>
+
+        <p>
+          Certaines offres peuvent nécessiter
+          de terminer plusieurs tâches avant
+          de débloquer des récompenses.
+          Consultez les conditions de votre compte.
+        </p>
+
+        <div class="rainbow"></div>
+
+      </div>
+
+      <div class="section-title">
+        Offre recommandée
+      </div>
+
+      <div class="offer-card">
+        <div class="play">▶</div>
+
+        <div>
+          <strong>
+            Gagnez des récompenses en ligne
+          </strong>
+
+          <p>
+            Découvrez des offres et des tâches
+            disponibles sur Freecash.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="section-title">
+      Comment ça marche
+    </div>
+
+    <section class="steps-grid">
+
+      <div class="mini-step">
+        <span class="number">1</span>
+        <strong>Choisissez une offre</strong>
+        <p>
+          Sélectionnez une tâche disponible.
+        </p>
+      </div>
+
+      <div class="mini-step">
+        <span class="number">2</span>
+        <strong>Terminez les tâches</strong>
+        <p>
+          Respectez les conditions de l'offre.
+        </p>
+      </div>
+
+      <div class="mini-step">
+        <span class="number">3</span>
+        <strong>Recevez vos récompenses</strong>
+        <p>
+          Retirez vos gains selon les options
+          disponibles.
+        </p>
+      </div>
+
+    </section>
+
+    <div class="cashout">
+      <span>PayPal</span>
+      <span>Crypto</span>
+      <span>Cartes-cadeaux</span>
+    </div>
+
+    <p class="note">
+      Les récompenses ne sont pas garanties.
+      Elles varient selon les offres,
+      les utilisateurs et leur disponibilité.
+    </p>
+
+    <footer>
+      © 2026 — Page promotionnelle Freecash
+    </footer>
+
+  </main>
+
+  <!-- Bouton fixe -->
+
+  <div class="sticky">
+
+    <button
+      class="cta"
+      id="openPopup"
+      type="button"
+    >
+      S'inscrire et découvrir les offres →
+      <small>Découvrez les récompenses disponibles</small>
+    </button>
+
+  </div>
+
+  <!-- Popup -->
+
+  <div
+    class="modal-overlay"
+    id="popup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="popupTitle"
+  >
+
+    <div class="modal">
+
+      <button
+        class="close-modal"
+        id="closePopup"
+        type="button"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+      <div class="modal-icon">🎁</div>
+
+      <h2 id="popupTitle">
+        Avant de commencer
+      </h2>
+
+      <p>
+        Certaines récompenses peuvent nécessiter
+        de terminer 4 à 5 offres, si cette
+        condition s'applique à votre compte.
+        Vérifiez toujours les conditions
+        officielles de chaque offre.
+      </p>
+
+      <a
+        class="modal-cta"
+        id="affiliateLink"
+        href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNTg3NGFjOThkZDg1MjQ1YjM1MWMiLCJ0cyI6MTc5MzAxNjE4NjgwOX0"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Continuer vers Freecash →
+      </a>
+
     </div>
   </div>
-<script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-  const denyMsg = document.getElementById("denyMsg");
 
-  yesBtn.addEventListener("click", function () {
-    const destination = new URL("/home/", window.location.origin);
-    destination.search = window.location.search;
-    window.location.assign(destination.toString());
-  });
+  <script>
+    const openPopup = document.getElementById("openPopup");
+    const closePopup = document.getElementById("closePopup");
+    const popup = document.getElementById("popup");
+    const affiliateLink = document.getElementById("affiliateLink");
 
-  noBtn.addEventListener("click", function () {
-    denyMsg.style.display = "block";
-  });
-</script>
+    function showPopup() {
+      popup.classList.add("active");
+      document.body.classList.add("modal-open");
+      closePopup.focus();
+    }
+
+    function hidePopup() {
+      popup.classList.remove("active");
+      document.body.classList.remove("modal-open");
+      openPopup.focus();
+    }
+
+    openPopup.addEventListener("click", showPopup);
+    closePopup.addEventListener("click", hidePopup);
+
+    popup.addEventListener("click", function (event) {
+      if (event.target === popup) {
+        hidePopup();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" &&
+          popup.classList.contains("active")) {
+        hidePopup();
+      }
+    });
+
+    // Păstrează parametrii de tracking din URL
+    const query = new URLSearchParams(window.location.search);
+
+    if (query.toString()) {
+      const url = new URL(affiliateLink.href);
+
+      query.forEach(function (value, key) {
+        url.searchParams.append(key, value);
+      });
+
+      affiliateLink.href = url.toString();
+    }
+  </script>
+
 </body>
 </html>
