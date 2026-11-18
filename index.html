@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030704">
-  <title>Vérification de l'âge</title>
+  <title>Choisissez votre appareil</title>
   <link rel="icon" href="/freecash-logo.webp" type="image/webp">
 
   <style>
@@ -27,7 +27,7 @@
       color: #f5fff7;
     }
 
-    .age-gate {
+    .device-gate {
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -36,13 +36,13 @@
       padding: 22px;
     }
 
-    .age-box {
+    .device-box {
       width: 100%;
       max-width: 520px;
       text-align: center;
     }
 
-    .age-icon {
+    .device-icon {
       width: 94px;
       height: 94px;
       margin: 0 auto 22px;
@@ -51,8 +51,7 @@
       border-radius: 24px;
       background: linear-gradient(#67ffa3, #20d66b);
       color: #031108;
-      font-size: 28px;
-      font-weight: 900;
+      font-size: 42px;
       box-shadow: 0 16px 36px rgba(57,255,136,.28);
     }
 
@@ -69,7 +68,7 @@
       margin-bottom: 28px;
     }
 
-    .age-actions {
+    .device-actions {
       display: grid;
       gap: 12px;
     }
@@ -79,84 +78,74 @@
       min-height: 66px;
       padding: 14px;
       border-radius: 18px;
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 900;
       cursor: pointer;
+      transition: transform .15s, opacity .15s;
     }
 
-    .yes {
+    button:active {
+      transform: scale(.98);
+    }
+
+    .ios {
       border: none;
       color: #031108;
       background: linear-gradient(#67ffa3, #20d66b);
     }
 
-    .no {
+    .android {
       color: #e8f3eb;
       background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.10);
-    }
-
-    .deny {
-      display: none;
-      margin-top: 16px;
-      padding: 16px;
-      border-radius: 14px;
-      color: #ffc0c7;
-      background: rgba(255,92,108,.08);
-      border: 1px solid rgba(255,92,108,.20);
-      font-size: 13px;
-      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.15);
     }
   </style>
 </head>
 
 <body>
-  <main class="age-gate">
-    <section class="age-box">
-      <div class="age-icon">21+</div>
+  <main class="device-gate">
+    <section class="device-box">
 
-      <h1>Vous avez 21 ans ou plus ?</h1>
+      <div class="device-icon">📱</div>
+
+      <h1>Vous êtes sur iOS ou Android ?</h1>
 
       <p>
-        Cette page est réservée aux personnes
-        âgées de 21 ans ou plus.
+        Sélectionnez votre appareil pour continuer.
       </p>
 
-      <div class="age-actions">
-        <button class="yes" id="yesBtn" type="button">
-          Oui, j'ai 21 ans ou plus
+      <div class="device-actions">
+
+        <button class="ios" type="button">
+          iOS (iPhone)
         </button>
 
-        <button class="no" id="noBtn" type="button">
-          Non, j'ai moins de 21 ans
+        <button class="android" type="button">
+          Android
         </button>
-      </div>
 
-      <div class="deny" id="denyMsg" role="alert">
-        Désolé, vous ne pouvez pas accéder
-        à cette page.
       </div>
     </section>
   </main>
 
   <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const denyMsg = document.getElementById("denyMsg");
-
-    yesBtn.addEventListener("click", function () {
+    function goToLander() {
       const destination = new URL(
         "/home/",
         window.location.origin
       );
 
+      // Preserve tracking parameters
       destination.search = window.location.search;
-      window.location.assign(destination.href);
-    });
 
-    noBtn.addEventListener("click", function () {
-      denyMsg.style.display = "block";
-    });
+      window.location.assign(destination.href);
+    }
+
+    document.querySelector(".ios")
+      .addEventListener("click", goToLander);
+
+    document.querySelector(".android")
+      .addEventListener("click", goToLander);
   </script>
 </body>
 </html>
